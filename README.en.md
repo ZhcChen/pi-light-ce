@@ -102,7 +102,7 @@ The scripts are idempotent. If the repository is already present, they update it
 
 The target project's `AGENTS.md` is generated from the template source file `PLCE_AGENTS.md`, and `.pi/prompts/*.md` becomes the project's `/brainstorm`, `/plan`, `/execute`, `/review`, and `/compound` entrypoints.
 
-`developer.md` is an optional development reference for reusable engineering hints. It does not participate in the main workflow contract and does not replace `AGENTS.md`.
+`developer.md` is a repository-level reference file for `pi-light-ce` itself. It is not written by `init` and does not replace `AGENTS.md`.
 
 `docs/*/TEMPLATE.md` is structure-only reference material. Real project records should go into concrete files in the same directory, such as `docs/plans/2025-07-26-short-name.md`, instead of writing live content into `TEMPLATE.md`.
 

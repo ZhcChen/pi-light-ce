@@ -102,7 +102,7 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 
 其中目标项目里的 `AGENTS.md` 来自模板文件 `PLCE_AGENTS.md`；`.pi/prompts/*.md` 会注册为该项目内的 `/brainstorm`、`/plan`、`/execute`、`/review`、`/compound` 入口。
 
-`developer.md` 是可选开发参考，用来放通用开发提示，不参与主流程判断，也不替代 `AGENTS.md`。
+`developer.md` 是 `pi-light-ce` 仓库级参考文件，不参与 `init` 输出，也不替代 `AGENTS.md`。
 
 `docs/*/TEMPLATE.md` 只作结构参考。正式内容应优先写入同目录下的具体文件，例如 `docs/plans/2025-07-26-short-name.md`，不要直接把真实记录写进 `TEMPLATE.md`。
 
