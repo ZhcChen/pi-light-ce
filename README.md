@@ -24,24 +24,66 @@
 | 许可证 | [MIT](./LICENSE) |
 | 运行要求 | Node.js 18+、npm、Pi |
 
-## 核心思想
+## 安装器会做什么
 
-| 原则 | 说明 |
+三个平台脚本都会执行同一套核心动作：
+
+| 动作 | 说明 |
 | --- | --- |
-| 小内核 | Pi 保持运行时内核，不再额外引入重型 workflow 平台 |
-| 固定流程 | 保留 `plan`、`execute`、`review`、`compound` 四个阶段 |
-| 轻量执行 | 每个阶段都保留，但深度按任务大小伸缩 |
-| Pi-only | 当前不兼容 Claude Code、Codex、Cursor 等其他 harness |
-| 模板优先 | 主要通过模板、约束文件、初始化命令沉淀工作方式 |
+| 检查依赖 | 检查 `git`、`node`、`npm`、`pi` 是否存在 |
+| 安装缺失依赖 | 按平台安装缺失项 |
+| 创建用户目录 | 创建 `~/.pi-l-ce` 或 `%USERPROFILE%\.pi-l-ce` |
+| 克隆仓库 | 将本仓库克隆到用户目录下的 `repo/` |
+| 更新仓库 | 如果仓库已存在，则执行 `git pull --ff-only` |
+| 暴露命令 | 创建全局可调用的 `pi-l-ce-init` 命令包装器 |
+| 处理 PATH | 将用户级命令目录加入 PATH（必要时） |
 
-## 工作流模型
+默认克隆位置：
 
-| 阶段 | 目的 | 最小动作 |
-| --- | --- | --- |
-| `plan` | 明确目标、范围、验证方式 | 在 `docs/plans/` 下创建或更新计划 |
-| `execute` | 按计划持续执行 | 用 `/goal` 连续推进，不在阶段边界停机 |
-| `review` | 对照计划验证结果 | 跑聚焦验证，检查偏移和回归 |
-| `compound` | 沉淀复用知识 | 将决策、坑点、经验写入 `docs/solutions/` |
+| 平台 | 目录 |
+| --- | --- |
+| macOS / Linux | `~/.pi-l-ce/repo` |
+| Windows | `%USERPROFILE%\.pi-l-ce\repo` |
+
+## 平台安装策略
+
+| 平台 | 缺失依赖安装策略 |
+| --- | --- |
+| macOS | 用 **Homebrew** 安装缺失的 `git`、`node`、`pi-coding-agent` |
+| Linux | 用系统包管理器安装 `git`、`curl`、`node`、`npm`，再用 `npm` 安装 Pi |
+| Windows | 用 **winget** 安装 `Git`、`Node.js`，再用 `npm` 安装 Pi |
+
+约束说明：
+
+| 平台 | 说明 |
+| --- | --- |
+| macOS | 安装脚本要求系统里已安装 Homebrew；如果没有，脚本会提示先安装 Homebrew |
+| Linux | 当前脚本支持 `apt-get`、`dnf`、`yum`、`pacman`、`zypper`、`apk` |
+| Windows | 安装脚本要求系统里可用 `winget` |
+
+这也回答你前面那个问题：**Windows 这边可以用 winget，但主要用于 Git 和 Node.js；Pi 本身还是通过 npm 安装。**
+
+## 一键安装命令
+
+推荐直接执行平台脚本。
+
+| 平台 | 一键安装命令 |
+| --- | --- |
+| macOS | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-macos.sh | bash` |
+| Linux | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-linux.sh | bash` |
+| Windows PowerShell | `irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-windows.ps1 | iex` |
+
+脚本可重复运行。仓库已存在时会更新，不会重复克隆第二份。
+
+## 验证安装
+
+安装完成后，执行：
+
+```bash
+pi-l-ce-init --help
+```
+
+如果能看到帮助输出，说明全局命令已经可用。
 
 ## 初始化后生成的项目文件
 
@@ -57,7 +99,11 @@
 
 ```text
 bin/
-  pi-l-ce-init                全局初始化命令
+  pi-l-ce-init                Node CLI 初始化命令
+scripts/
+  install-macos.sh            macOS 安装脚本
+  install-linux.sh            Linux 安装脚本
+  install-windows.ps1         Windows 安装脚本
 templates/
   project/
     AGENTS.md                 项目工作流约束
@@ -68,49 +114,28 @@ templates/
         TEMPLATE.md           沉淀模板
 ```
 
-## 使用前提
+## 推荐的 Pi 包
 
-| 组件 | 是否必须 | 说明 |
+| 包 | 是否推荐 | 作用 |
 | --- | --- | --- |
-| Node.js 18+ | 必须 | 用于运行全局初始化命令 |
-| npm | 必须 | 用于安装全局命令 |
-| Pi | 必须 | 工作流运行时 |
 | `pi-subagents` | 推荐 | 子代理编排底座 |
 | `@narumitw/pi-goal` | 推荐 | 长计划持续执行机制 |
 
-推荐安装的 Pi 包：
+安装命令：
 
 ```bash
 pi install npm:pi-subagents
 pi install npm:@narumitw/pi-goal
 ```
 
-## 安装全局命令
+## 工作流模型
 
-最简单、跨平台一致的方式，是直接从 GitHub 通过 npm 全局安装。
-
-### 从 GitHub 安装
-
-| 平台 | HTTPS | SSH |
+| 阶段 | 目的 | 最小动作 |
 | --- | --- | --- |
-| macOS | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
-| Linux | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
-| Windows PowerShell | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
-
-### 从本地仓库安装
-
-| 平台 | 命令 |
-| --- | --- |
-| macOS / Linux | `npm install -g /absolute/path/to/pi-light-ce` |
-| Windows PowerShell | `npm install -g C:\path\to\pi-light-ce` |
-
-## 验证安装
-
-```bash
-pi-l-ce-init --help
-```
-
-如果能看到帮助输出，说明全局命令安装成功。
+| `plan` | 明确目标、范围、验证方式 | 在 `docs/plans/` 下创建或更新计划 |
+| `execute` | 按计划持续执行 | 用 `/goal` 连续推进，不在阶段边界停机 |
+| `review` | 对照计划验证结果 | 跑聚焦验证，检查偏移和回归 |
+| `compound` | 沉淀复用知识 | 将决策、坑点、经验写入 `docs/solutions/` |
 
 ## 初始化项目
 

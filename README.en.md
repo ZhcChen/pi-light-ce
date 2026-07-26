@@ -24,24 +24,64 @@ It does not try to become another heavy framework or a multi-harness abstraction
 | License | [MIT](./LICENSE) |
 | Requirements | Node.js 18+, npm, Pi |
 
-## Core Principles
+## What the Installers Do
 
-| Principle | Meaning |
+All three platform scripts follow the same core flow:
+
+| Action | Description |
 | --- | --- |
-| Small core | Pi stays the runtime core; no large workflow platform is added |
-| Fixed stages | Keep `plan`, `execute`, `review`, and `compound` |
-| Variable depth | Every stage stays, but its depth scales with task size |
-| Pi-only | No Claude Code, Codex, Cursor, or other harness compatibility layer |
-| Template-first | Workflow is standardized mainly through templates and project conventions |
+| Check prerequisites | verify whether `git`, `node`, `npm`, and `pi` are available |
+| Install missing dependencies | install missing pieces using the platform-native strategy |
+| Create user directory | create `~/.pi-l-ce` or `%USERPROFILE%\.pi-l-ce` |
+| Clone repository | clone this repository into the user directory under `repo/` |
+| Update repository | if it already exists, run `git pull --ff-only` |
+| Expose command | create a globally callable `pi-l-ce-init` wrapper |
+| Update PATH | add the user command directory to PATH if needed |
 
-## Workflow Model
+Default clone location:
 
-| Stage | Purpose | Minimum action |
-| --- | --- | --- |
-| `plan` | define goal, scope, and validation | create or update a plan under `docs/plans/` |
-| `execute` | keep work moving against the plan | use `/goal` so Pi does not stop at phase boundaries |
-| `review` | validate results against the plan | run focused checks and look for drift or regressions |
-| `compound` | capture reusable knowledge | write decisions, pitfalls, or lessons under `docs/solutions/` |
+| Platform | Directory |
+| --- | --- |
+| macOS / Linux | `~/.pi-l-ce/repo` |
+| Windows | `%USERPROFILE%\.pi-l-ce\repo` |
+
+## Platform Installation Strategy
+
+| Platform | Missing dependency strategy |
+| --- | --- |
+| macOS | use **Homebrew** to install missing `git`, `node`, and `pi-coding-agent` |
+| Linux | use the system package manager for `git`, `curl`, `node`, and `npm`, then install Pi with `npm` |
+| Windows | use **winget** for `Git` and `Node.js`, then install Pi with `npm` |
+
+Platform notes:
+
+| Platform | Note |
+| --- | --- |
+| macOS | the installer expects Homebrew to already exist; if it does not, the script stops and asks you to install Homebrew first |
+| Linux | the current installer supports `apt-get`, `dnf`, `yum`, `pacman`, `zypper`, and `apk` |
+| Windows | the installer expects `winget` to be available |
+
+This also answers the earlier Windows question: **yes, winget is used on Windows, but mainly for Git and Node.js; Pi itself is still installed through npm.**
+
+## One-Command Installation
+
+The recommended path is to run the platform installer script directly.
+
+| Platform | Command |
+| --- | --- |
+| macOS | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-macos.sh | bash` |
+| Linux | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-linux.sh | bash` |
+| Windows PowerShell | `irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-windows.ps1 | iex` |
+
+The scripts are idempotent. If the repository is already present, they update it instead of cloning a second copy.
+
+## Verify Installation
+
+```bash
+pi-l-ce-init --help
+```
+
+If help output appears, the global command is available.
 
 ## Generated Project Files
 
@@ -57,7 +97,11 @@ It does not try to become another heavy framework or a multi-harness abstraction
 
 ```text
 bin/
-  pi-l-ce-init                global initializer command
+  pi-l-ce-init                Node CLI initializer command
+scripts/
+  install-macos.sh            macOS installer
+  install-linux.sh            Linux installer
+  install-windows.ps1         Windows installer
 templates/
   project/
     AGENTS.md                 project workflow contract
@@ -68,49 +112,28 @@ templates/
         TEMPLATE.md           compound template
 ```
 
-## Requirements
+## Recommended Pi Packages
 
-| Component | Required | Notes |
+| Package | Recommended | Purpose |
 | --- | --- | --- |
-| Node.js 18+ | Yes | needed for the global initializer command |
-| npm | Yes | used for installation |
-| Pi | Yes | workflow runtime |
-| `pi-subagents` | Recommended | subagent orchestration base |
-| `@narumitw/pi-goal` | Recommended | long-running execution mechanism |
+| `pi-subagents` | Yes | subagent orchestration base |
+| `@narumitw/pi-goal` | Yes | long-running execution mechanism |
 
-Recommended Pi packages:
+Install them with:
 
 ```bash
 pi install npm:pi-subagents
 pi install npm:@narumitw/pi-goal
 ```
 
-## Install the Global Command
+## Workflow Model
 
-The easiest cross-platform installation method is global npm install from GitHub.
-
-### Install from GitHub
-
-| Platform | HTTPS | SSH |
+| Stage | Purpose | Minimum action |
 | --- | --- | --- |
-| macOS | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
-| Linux | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
-| Windows PowerShell | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
-
-### Install from a Local Checkout
-
-| Platform | Command |
-| --- | --- |
-| macOS / Linux | `npm install -g /absolute/path/to/pi-light-ce` |
-| Windows PowerShell | `npm install -g C:\path\to\pi-light-ce` |
-
-## Verify Installation
-
-```bash
-pi-l-ce-init --help
-```
-
-If help text appears, the global command is installed correctly.
+| `plan` | define goal, scope, and validation | create or update a plan under `docs/plans/` |
+| `execute` | keep work moving against the plan | use `/goal` so Pi does not stop at phase boundaries |
+| `review` | validate results against the plan | run focused checks and look for drift or regressions |
+| `compound` | capture reusable knowledge | write decisions, pitfalls, or lessons under `docs/solutions/` |
 
 ## Initialize a Project
 
