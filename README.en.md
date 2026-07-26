@@ -91,6 +91,7 @@ The scripts are idempotent. If the repository is already present, they update it
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | project workflow contract |
+| `developer.md` | optional development reference, outside the main workflow contract |
 | `.pi/prompts/brainstorm.md` | in-project `/brainstorm` entry template |
 | `.pi/prompts/plan.md` | in-project `/plan` entry template |
 | `.pi/prompts/execute.md` | in-project `/execute` entry template |
@@ -101,6 +102,8 @@ The scripts are idempotent. If the repository is already present, they update it
 | `docs/solutions/TEMPLATE.md` | Simplified Chinese compound / solution template |
 
 The target project's `AGENTS.md` is generated from the template source file `PLCE_AGENTS.md`, and `.pi/prompts/*.md` becomes the project's `/brainstorm`, `/plan`, `/execute`, `/review`, and `/compound` entrypoints.
+
+`developer.md` is an optional development reference for reusable engineering hints. It does not participate in the main workflow contract and does not replace `AGENTS.md`.
 
 `docs/*/TEMPLATE.md` is structure-only reference material. Real project records should go into concrete files in the same directory, such as `docs/plans/2025-07-26-short-name.md`, instead of writing live content into `TEMPLATE.md`.
 
@@ -134,6 +137,7 @@ templates/
         review.md              in-project /review prompt template
         compound.md            in-project /compound prompt template
     PLCE_AGENTS.md            template source copied into target AGENTS.md
+    developer.md              optional development reference
     docs/
       brainstorms/
         TEMPLATE.md           brainstorm template

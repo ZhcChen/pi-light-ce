@@ -68,6 +68,7 @@ try {
 
   const requiredFiles = [
     path.join(targetDir, "AGENTS.md"),
+    path.join(targetDir, "developer.md"),
     path.join(targetDir, ".pi", "prompts", "brainstorm.md"),
     path.join(targetDir, ".pi", "prompts", "plan.md"),
     path.join(targetDir, ".pi", "prompts", "execute.md"),
@@ -87,6 +88,7 @@ try {
   const doctorOutput = runChecked(nodeCommand, [path.join(repoRoot, "bin", "pi-l-ce"), "doctor"], { cwd: targetDir }, "Failed to run pi-l-ce doctor").stdout
   const doctorChecks = [
     "[ok] AGENTS.md - present",
+    "[ok] developer.md - present",
     "[ok] .pi/prompts/brainstorm.md - present",
     "[ok] .pi/prompts/execute.md - present",
     "[ok] docs/plans/TEMPLATE.md - present",
@@ -119,6 +121,7 @@ try {
   const expectedEntries = [
     "package/bin/pi-l-ce",
     "package/lib/cli.js",
+    "package/templates/project/developer.md",
     "package/templates/project/.pi/prompts/brainstorm.md",
     "package/templates/project/.pi/prompts/plan.md",
     "package/templates/project/.pi/prompts/execute.md",

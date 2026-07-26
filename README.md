@@ -91,6 +91,7 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 路径 | 作用 |
 | --- | --- |
 | `AGENTS.md` | 项目工作流约束 |
+| `developer.md` | 可选开发参考，不参与主流程判断 |
 | `.pi/prompts/brainstorm.md` | 项目内 `/brainstorm` 入口模板 |
 | `.pi/prompts/plan.md` | 项目内 `/plan` 入口模板 |
 | `.pi/prompts/execute.md` | 项目内 `/execute` 入口模板 |
@@ -101,6 +102,8 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | `docs/solutions/TEMPLATE.md` | 简体中文沉淀模板 |
 
 其中目标项目里的 `AGENTS.md` 来自模板文件 `PLCE_AGENTS.md`；`.pi/prompts/*.md` 会注册为该项目内的 `/brainstorm`、`/plan`、`/execute`、`/review`、`/compound` 入口。
+
+`developer.md` 是可选开发参考，用来放通用开发提示，不参与主流程判断，也不替代 `AGENTS.md`。
 
 `docs/*/TEMPLATE.md` 只作结构参考。正式内容应优先写入同目录下的具体文件，例如 `docs/plans/2025-07-26-short-name.md`，不要直接把真实记录写进 `TEMPLATE.md`。
 
@@ -134,6 +137,7 @@ templates/
         review.md              项目内 /review 提示词模板
         compound.md            项目内 /compound 提示词模板
     PLCE_AGENTS.md            模板源文件，初始化后写入为 AGENTS.md
+    developer.md              可选开发参考文件
     docs/
       brainstorms/
         TEMPLATE.md           brainstorm 模板
