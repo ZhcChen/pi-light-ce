@@ -91,7 +91,6 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 路径 | 作用 |
 | --- | --- |
 | `AGENTS.md` | 项目工作流约束 |
-| `developer.md` | 可选开发参考，不参与主流程判断 |
 | `.pi/prompts/brainstorm.md` | 项目内 `/brainstorm` 入口模板 |
 | `.pi/prompts/plan.md` | 项目内 `/plan` 入口模板 |
 | `.pi/prompts/execute.md` | 项目内 `/execute` 入口模板 |
@@ -137,7 +136,6 @@ templates/
         review.md              项目内 /review 提示词模板
         compound.md            项目内 /compound 提示词模板
     PLCE_AGENTS.md            模板源文件，初始化后写入为 AGENTS.md
-    developer.md              可选开发参考文件
     docs/
       brainstorms/
         TEMPLATE.md           brainstorm 模板
@@ -145,6 +143,8 @@ templates/
         TEMPLATE.md           计划模板
       solutions/
         TEMPLATE.md           沉淀模板
+
+developer.md                  仓库级开发参考，不参与 init 输出
 ```
 
 ## 推荐的 Pi 包

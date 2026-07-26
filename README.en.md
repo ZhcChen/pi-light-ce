@@ -91,7 +91,6 @@ The scripts are idempotent. If the repository is already present, they update it
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | project workflow contract |
-| `developer.md` | optional development reference, outside the main workflow contract |
 | `.pi/prompts/brainstorm.md` | in-project `/brainstorm` entry template |
 | `.pi/prompts/plan.md` | in-project `/plan` entry template |
 | `.pi/prompts/execute.md` | in-project `/execute` entry template |
@@ -137,7 +136,6 @@ templates/
         review.md              in-project /review prompt template
         compound.md            in-project /compound prompt template
     PLCE_AGENTS.md            template source copied into target AGENTS.md
-    developer.md              optional development reference
     docs/
       brainstorms/
         TEMPLATE.md           brainstorm template
@@ -145,6 +143,8 @@ templates/
         TEMPLATE.md           plan template
       solutions/
         TEMPLATE.md           compound template
+
+developer.md                  repository-level development reference, not written by init
 ```
 
 ## Recommended Pi Packages
