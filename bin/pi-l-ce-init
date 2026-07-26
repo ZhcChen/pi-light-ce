@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+
+const fs = require("node:fs")
+const path = require("node:path")
+
+function usage() {
+  process.stdout.write(`Usage: pi-l-ce-init [--force] [target_dir]
+
+Initialize a target project with the pi-light-ce workflow files.
+
+Options:
+  --force   Overwrite managed files if they already exist.
+  -h        Show this help.
+
+Arguments:
+  target_dir  Target project directory. Defaults to the current directory.
+`)
+}
+
+let force = false
+let targetArg = "."
+const args = process.argv.slice(2)
+
+for (let i = 0; i < args.length; i += 1) {
+  const arg = args[i]
+  if (arg === "--force") {
+    force = true
+    continue
+  }
+  if (arg === "-h" || arg === "--help") {
+    usage()
+    process.exit(0)
+  }
+  targetArg = arg
+}
+
+const scriptDir = __dirname
+const repoRoot = path.resolve(scriptDir, "..")
+const templateRoot = path.join(repoRoot, "templates", "project")
+const targetDir = path.resolve(process.cwd(), targetArg)
+
+if (!fs.existsSync(targetDir) || !fs.statSync(targetDir).isDirectory()) {
+  process.stderr.write("Target directory does not exist.\n")
+  process.exit(1)
+}
+
+fs.mkdirSync(path.join(targetDir, "docs", "plans"), { recursive: true })
+fs.mkdirSync(path.join(targetDir, "docs", "solutions"), { recursive: true })
+
+function copyFile(src, rel) {
+  const dst = path.join(targetDir, rel)
+  fs.mkdirSync(path.dirname(dst), { recursive: true })
+
+  if (fs.existsSync(dst) && !force) {
+    process.stdout.write(`skip   ${rel} (already exists)\n`)
+    return
+  }
+
+  fs.copyFileSync(src, dst)
+  process.stdout.write(`write  ${rel}\n`)
+}
+
+copyFile(path.join(templateRoot, "AGENTS.md"), "AGENTS.md")
+copyFile(path.join(templateRoot, "docs", "plans", "TEMPLATE.md"), path.join("docs", "plans", "TEMPLATE.md"))
+copyFile(path.join(templateRoot, "docs", "solutions", "TEMPLATE.md"), path.join("docs", "solutions", "TEMPLATE.md"))
+
+process.stdout.write(`
+Initialization complete.
+
+Recommended Pi packages:
+  pi install npm:pi-subagents
+  pi install npm:@narumitw/pi-goal
+
+Suggested next steps:
+  1. Review AGENTS.md.
+  2. Create a task plan under docs/plans/.
+  3. Use /goal to execute the plan continuously.
+`)

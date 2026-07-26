@@ -1,0 +1,16 @@
+{
+  "name": "pi-light-ce",
+  "version": "0.1.0",
+  "description": "A lightweight, Pi-first engineering workflow kit",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhcChen/pi-light-ce.git"
+  },
+  "homepage": "https://github.com/ZhcChen/pi-light-ce",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "pi-l-ce-init": "./bin/pi-l-ce-init"
+  }
+}
