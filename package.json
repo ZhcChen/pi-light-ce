@@ -15,7 +15,6 @@
     "bin/",
     "lib/",
     "templates/",
-    "developer.md",
     "README.md",
     "README.en.md",
     "LICENSE"
