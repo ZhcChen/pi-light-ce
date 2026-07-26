@@ -113,16 +113,6 @@ pi install npm:@narumitw/pi-goal
 | 初始化其他目录 | `pi-l-ce-init /path/to/project` |
 | 强制覆盖受管理文件 | `pi-l-ce-init --force /path/to/project` |
 
-## 当前非目标
-
-| 不做什么 | 原因 |
-| --- | --- |
-| 重型插件框架 | 保持 Pi-first 的轻量形态 |
-| 大而全 workflow suite | 避免引入额外复杂度 |
-| CE 上游兼容层 | 当前只沉淀自己的轻量工作流 |
-| 多 harness 抽象层 | 当前只支持 Pi |
-| 额外 runtime 代码生成 | 除非后续证明确有必要 |
-
 ## 许可证
 
 本项目采用 [MIT License](./LICENSE)。

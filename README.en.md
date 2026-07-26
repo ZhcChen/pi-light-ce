@@ -111,16 +111,6 @@ pi install npm:@narumitw/pi-goal
 | initialize another directory | `pi-l-ce-init /path/to/project` |
 | force overwrite managed files | `pi-l-ce-init --force /path/to/project` |
 
-## Current Non-Goals
-
-| Not included | Why |
-| --- | --- |
-| heavy plugin framework | keep the Pi-first footprint small |
-| large workflow suite | avoid extra orchestration complexity |
-| CE upstream compatibility layer | this repo focuses on its own lightweight workflow |
-| multi-harness abstraction | Pi-only by design |
-| generated runtime code inside target projects | avoid it unless it later becomes clearly necessary |
-
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).

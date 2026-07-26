@@ -1,74 +1,74 @@
-# Project Workflow Contract
+# 项目工作流约束
 
-This project uses a lightweight four-stage workflow:
+本项目采用轻量的四阶段工作流：
 
 1. `plan`
 2. `execute`
 3. `review`
 4. `compound`
 
-The stages stay fixed. Their depth scales with task size and risk.
+阶段保持固定，但深度可以根据任务规模和风险进行伸缩。
 
 ## 1. Plan
 
-Before implementation, create or update one plan document under `docs/plans/`.
+开始实现前，需要先在 `docs/plans/` 下创建或更新一个计划文档。
 
-Every plan should state:
+每个计划至少应说明：
 
-- the objective
-- the scope
-- the non-goals
-- the validation approach
-- the main risks or open questions
+- 目标
+- 范围
+- 非目标
+- 验证方式
+- 主要风险或待确认问题
 
-Small tasks may use a short plan. Do not skip the stage; make it brief instead.
+小任务可以写成短计划，但不要跳过这个阶段，只是把它写得更轻。
 
 ## 2. Execute
 
-Implement against the active plan document.
+实现时以当前激活的计划文档为准。
 
-For long-running work, prefer `/goal` so execution continues without stopping at phase boundaries.
+对于长时间执行的任务，优先使用 `/goal`，让执行过程不要在阶段边界频繁停下来。
 
-Execution should stop only for:
+执行过程只应在以下情况停止：
 
-- a missing product or technical decision
-- missing credentials, permissions, or external input
-- an unsafe or irreversible operation that needs approval
-- completed and verified work
+- 缺少产品或技术决策
+- 缺少凭证、权限或外部输入
+- 需要批准的危险或不可逆操作
+- 工作已完成且验证通过
 
 ## 3. Review
 
-Review the result against the plan.
+对照计划审查结果。
 
-Minimum review expectations:
+最低复核要求：
 
-- check the scope against the plan
-- run focused validation
-- check for obvious regressions or drift
+- 检查结果是否仍在计划范围内
+- 执行聚焦验证
+- 检查是否存在明显回归或偏移
 
-Use an independent reviewer or subagent when the task is broad, risky, or user-facing.
+当任务范围较大、风险较高或直接面向用户时，优先使用独立 reviewer 或 subagent 进行复核。
 
 ## 4. Compound
 
-Capture reusable knowledge under `docs/solutions/` when the task surfaces:
+当任务过程中出现以下内容时，应在 `docs/solutions/` 下沉淀可复用知识：
 
-- a non-obvious decision
-- a recurring pitfall
-- a useful debugging path
-- a pattern worth reusing
+- 不明显但重要的决策
+- 会重复出现的坑点
+- 有价值的排查路径
+- 值得复用的模式
 
-Small tasks may leave a short note. Larger tasks should write a proper solution artifact.
+小任务可以写简短记录；较大的任务应写成完整的 solution 文档。
 
-## Artifact Rules
+## 产物规则
 
-- Plans live under `docs/plans/`
-- Compound notes live under `docs/solutions/`
-- Use repository-relative paths in documents
-- Keep one active plan file per task
+- 计划文档放在 `docs/plans/`
+- 沉淀文档放在 `docs/solutions/`
+- 文档内统一使用仓库相对路径
+- 每个任务保持一个当前激活的计划文件
 
-## Working Style
+## 工作方式
 
-- Prefer small, verifiable changes
-- Avoid unrelated refactors during task execution
-- If the task is purely informational, answer directly without creating artifacts
-- If the task changes code or docs, the four stages still apply; keep them lightweight when appropriate
+- 优先做小而可验证的改动
+- 任务执行过程中避免无关重构
+- 如果任务只是信息查询，可直接回答，不强制创建产物
+- 如果任务涉及代码或文档修改，四个阶段仍然适用，只是可以按任务大小保持轻量
