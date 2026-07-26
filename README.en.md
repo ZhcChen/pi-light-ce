@@ -63,6 +63,7 @@ The scripts are idempotent. If the repository is already present, they update it
 | initialize another directory | `pi-l-ce init /path/to/project` |
 | force overwrite template files | `pi-l-ce init --force /path/to/project` |
 | update local installation from GitHub | `pi-l-ce self-update` |
+| run local smoke test | `bash scripts/smoke-test.sh` |
 
 ## Generated Project Files
 
@@ -88,6 +89,7 @@ scripts/
   install-macos.sh            macOS installer
   install-linux.sh            Linux installer
   install-windows.ps1         Windows installer
+  smoke-test.sh               local smoke test
 templates/
   project/
     PLCE_AGENTS.md            template source copied into target AGENTS.md

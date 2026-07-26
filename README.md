@@ -63,6 +63,7 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 初始化其他目录 | `pi-l-ce init /path/to/project` |
 | 强制覆盖模板文件 | `pi-l-ce init --force /path/to/project` |
 | 从 GitHub 更新本地安装 | `pi-l-ce self-update` |
+| 运行本地 smoke test | `bash scripts/smoke-test.sh` |
 
 ## 初始化后生成的项目文件
 
@@ -88,6 +89,7 @@ scripts/
   install-macos.sh            macOS 安装脚本
   install-linux.sh            Linux 安装脚本
   install-windows.ps1         Windows 安装脚本
+  smoke-test.sh               本地 smoke test
 templates/
   project/
     PLCE_AGENTS.md            模板源文件，初始化后写入为 AGENTS.md
