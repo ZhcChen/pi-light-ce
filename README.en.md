@@ -1,12 +1,19 @@
-# pi-light-ce
-
-![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
-![Pi First](https://img.shields.io/badge/Pi-first-7c3aed)
-![Node >=18](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)
-![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1f6feb)
-![Docs](https://img.shields.io/badge/docs-default%20zh--CN-brightgreen)
-
-[简体中文](./README.md) | English
+<div align="center">
+  <h1>pi-light-ce</h1>
+  <p><strong>A lightweight, Pi-first engineering workflow kit</strong></p>
+  <p>
+    <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+    <img alt="Pi First" src="https://img.shields.io/badge/Pi-first-7c3aed">
+    <img alt="Workflow" src="https://img.shields.io/badge/workflow-4%20stages-0f766e">
+    <img alt="Installer" src="https://img.shields.io/badge/installer-bootstrap%20scripts-2563eb">
+  </p>
+  <p>
+    <img alt="Node >=18" src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white">
+    <img alt="Platform" src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1f6feb">
+    <img alt="Docs" src="https://img.shields.io/badge/docs-zh--CN%20%7C%20EN-brightgreen">
+  </p>
+  <p><a href="./README.md">简体中文</a> | English</p>
+</div>
 
 `pi-light-ce` is a **lightweight, Pi-first engineering workflow kit**.
 
