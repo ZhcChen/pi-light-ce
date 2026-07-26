@@ -28,6 +28,7 @@ It does not try to become another heavy framework or a multi-harness abstraction
 | Supported runtime | Pi only |
 | Main command | `pi-l-ce` |
 | Workflow | `plan -> execute -> review -> compound` |
+| Pre-plan clarification | `docs/brainstorms/`, used only when requirements or options are still unclear |
 | License | [MIT](./LICENSE) |
 | Requirements | Node.js 18+, npm, Pi |
 
@@ -70,8 +71,9 @@ The scripts are idempotent. If the repository is already present, they update it
 | Path | Purpose |
 | --- | --- |
 | `AGENTS.md` | project workflow contract |
-| `docs/plans/TEMPLATE.md` | plan template |
-| `docs/solutions/TEMPLATE.md` | compound / solution template |
+| `docs/brainstorms/TEMPLATE.md` | Simplified Chinese brainstorm template for unclear requirements or competing options |
+| `docs/plans/TEMPLATE.md` | Simplified Chinese plan template |
+| `docs/solutions/TEMPLATE.md` | Simplified Chinese compound / solution template |
 
 The target project's `AGENTS.md` is generated from the template source file `PLCE_AGENTS.md`.
 
@@ -90,6 +92,8 @@ templates/
   project/
     PLCE_AGENTS.md            template source copied into target AGENTS.md
     docs/
+      brainstorms/
+        TEMPLATE.md           brainstorm template
       plans/
         TEMPLATE.md           plan template
       solutions/
@@ -111,6 +115,8 @@ pi install npm:@narumitw/pi-goal
 ```
 
 ## Workflow Model
+
+`brainstorm` is not part of the fixed main workflow. It is an optional pre-plan clarification layer used before `plan` when requirements are unclear, scope is still open, options compete, or unknowns are high.
 
 | Stage | Purpose | Minimum action |
 | --- | --- | --- |

@@ -28,6 +28,7 @@
 | 支持范围 | 仅支持 Pi |
 | 核心命令 | `pi-l-ce` |
 | 工作流 | `plan -> execute -> review -> compound` |
+| 前置收敛 | `docs/brainstorms/`，仅在需求不清或方案分叉时使用 |
 | 许可证 | [MIT](./LICENSE) |
 | 运行要求 | Node.js 18+、npm、Pi |
 
@@ -70,8 +71,9 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 路径 | 作用 |
 | --- | --- |
 | `AGENTS.md` | 项目工作流约束 |
-| `docs/plans/TEMPLATE.md` | 计划模板 |
-| `docs/solutions/TEMPLATE.md` | 沉淀模板 |
+| `docs/brainstorms/TEMPLATE.md` | 需求不清或方案分叉时使用的简体中文 brainstorm 模板 |
+| `docs/plans/TEMPLATE.md` | 简体中文计划模板 |
+| `docs/solutions/TEMPLATE.md` | 简体中文沉淀模板 |
 
 其中目标项目里的 `AGENTS.md` 来自模板文件 `PLCE_AGENTS.md`。
 
@@ -90,6 +92,8 @@ templates/
   project/
     PLCE_AGENTS.md            模板源文件，初始化后写入为 AGENTS.md
     docs/
+      brainstorms/
+        TEMPLATE.md           brainstorm 模板
       plans/
         TEMPLATE.md           计划模板
       solutions/
@@ -111,6 +115,8 @@ pi install npm:@narumitw/pi-goal
 ```
 
 ## 工作流模型
+
+`brainstorm` 不是固定主流程阶段；它是 `plan` 之前的可选前置收敛层。只有在需求不清、范围未定、方案分叉或未知项较多时，才先写 `docs/brainstorms/`，再进入 `docs/plans/`。
 
 | 阶段 | 目的 | 最小动作 |
 | --- | --- | --- |

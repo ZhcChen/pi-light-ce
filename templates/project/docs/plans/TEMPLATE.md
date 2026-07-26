@@ -1,46 +1,46 @@
-# Plan Template
+# 计划模板
 
-## Title
+## 标题信息
 
-- Task:
-- Status: draft | active | done
-- Owner:
-- Date:
+- 任务：
+- 状态：草稿 | 进行中 | 已完成
+- 负责人：
+- 日期：
 
-## Objective
+## 目标
 
-What needs to be true when this task is complete?
+这个任务完成后，什么状态必须成立？
 
-## Scope
+## 范围
 
-What will change?
+这次会改动什么？
 
-## Non-Goals
+## 非目标
 
-What is explicitly out of scope?
+明确不在这次任务范围内的内容是什么？
 
-## Affected Areas
+## 影响区域
 
-- Files:
-- Modules:
-- Interfaces / contracts:
+- 文件：
+- 模块：
+- 接口 / 约束：
 
-## Approach
+## 实现思路
 
-1.
-2.
-3.
+1. 
+2. 
+3. 
 
-## Validation
+## 验证方式
 
-- Commands:
-- Manual checks:
-- Expected evidence:
+- 命令：
+- 手工检查：
+- 预期证据：
 
-## Risks / Open Questions
+## 风险 / 待确认问题
 
 - 
 
-## Compound Follow-Up
+## 沉淀跟进
 
-Is there anything likely worth capturing later in `docs/solutions/`?
+这次任务结束后，是否有内容值得沉淀到 `docs/solutions/`？

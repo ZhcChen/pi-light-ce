@@ -1,33 +1,33 @@
-# Solution Template
+# 沉淀模板
 
-## Title
+## 标题信息
 
-- Topic:
-- Date:
-- Related plan:
+- 主题：
+- 日期：
+- 关联计划：
 
-## Summary
+## 摘要
 
-What problem, decision, or lesson is this note capturing?
+这份记录要沉淀的问题、决策或经验是什么？
 
-## Context
+## 背景
 
-When did this come up, and why did it matter?
+这个问题是在什么场景下出现的，为什么值得记录？
 
-## What We Learned
-
-- 
-
-## Reusable Guidance
+## 关键结论
 
 - 
 
-## Validation / Evidence
+## 可复用建议
 
-- Commands:
-- Files:
-- Outputs or observations:
+- 
 
-## Follow-Ups
+## 验证 / 证据
+
+- 命令：
+- 文件：
+- 输出或观察：
+
+## 后续事项
 
 - 
