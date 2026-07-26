@@ -8,7 +8,7 @@
     <img alt="Installer" src="https://img.shields.io/badge/installer-bootstrap%20scripts-2563eb">
   </p>
   <p>
-    <img alt="Node >=18" src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white">
+    <img alt="Node >=18" src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&amp;logoColor=white">
     <img alt="Platform" src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1f6feb">
     <img alt="Docs" src="https://img.shields.io/badge/docs-zh--CN%20%7C%20EN-brightgreen">
   </p>
