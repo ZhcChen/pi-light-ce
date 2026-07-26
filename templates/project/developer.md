@@ -30,5 +30,14 @@ git add .
 ```
 
 - 提交信息默认使用简体中文，建议前缀：`feat:`、`fix:`、`docs:`、`test:`、`chore:`、`refactor:`。
-- commit 成功后默认立即执行 `git push`，避免本地堆积未推送提交。
+- commit 成功后默认立即同步远端并推送，推荐顺序：
+
+```bash
+git fetch origin
+git rebase origin/main
+git push origin main
+```
+
+- 如果 `git push` 因远端已有新提交而被拒绝，默认不要强推；先执行 `git fetch origin` 和 `git rebase origin/main`，处理完再推送。
+- 如果 `rebase` 过程中出现冲突，先解决冲突文件，再执行 `git add <file>` 和 `git rebase --continue`，完成后再 `git push origin main`。
 - 如果工作区存在无关改动，不回滚、不顺手整理、不混入本轮提交。
