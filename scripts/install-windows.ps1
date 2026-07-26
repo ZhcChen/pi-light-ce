@@ -4,7 +4,8 @@ $RepoUrl = if ($env:PI_L_CE_REPO_URL) { $env:PI_L_CE_REPO_URL } else { 'https://
 $InstallRoot = Join-Path $HOME '.pi-l-ce'
 $RepoDir = Join-Path $InstallRoot 'repo'
 $UserBin = Join-Path $InstallRoot 'bin'
-$WrapperCmd = Join-Path $UserBin 'pi-l-ce-init.cmd'
+$PrimaryWrapperCmd = Join-Path $UserBin 'pi-l-ce.cmd'
+$CompatWrapperCmd = Join-Path $UserBin 'pi-l-ce-init.cmd'
 
 function Write-Step {
   param([string]$Message)
@@ -74,15 +75,20 @@ function Clone-Or-UpdateRepo {
   git clone $RepoUrl $RepoDir
 }
 
-function Create-Wrapper {
+function Create-Wrappers {
   New-Item -ItemType Directory -Force -Path $UserBin | Out-Null
 
   @"
 @echo off
-node "%USERPROFILE%\.pi-l-ce\repo\bin\pi-l-ce-init" %*
-"@ | Set-Content -Path $WrapperCmd -Encoding Ascii
+node "%USERPROFILE%\.pi-l-ce\repo\bin\pi-l-ce" %*
+"@ | Set-Content -Path $PrimaryWrapperCmd -Encoding Ascii
 
-  Write-Step "Installed command wrapper at $WrapperCmd"
+  @"
+@echo off
+node "%USERPROFILE%\.pi-l-ce\repo\bin\pi-l-ce-init" %*
+"@ | Set-Content -Path $CompatWrapperCmd -Encoding Ascii
+
+  Write-Step "Installed command wrappers at $UserBin"
 }
 
 function Ensure-UserPath {
@@ -129,9 +135,10 @@ Ensure-WingetPackage -CommandName node -WingetId 'OpenJS.NodeJS.LTS' -DisplayNam
 Refresh-CommonPathHints
 Ensure-Pi
 Clone-Or-UpdateRepo
-Create-Wrapper
+Create-Wrappers
 Ensure-UserPath
 
 Write-Step 'Done'
-Write-Step 'Verify with: pi-l-ce-init --help'
-Write-Step 'Update later with: pi-l-ce-init --self-update'
+Write-Step 'Verify with: pi-l-ce --help'
+Write-Step 'Initialize with: pi-l-ce init .'
+Write-Step 'Update later with: pi-l-ce self-update'

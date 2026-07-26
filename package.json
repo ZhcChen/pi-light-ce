@@ -12,6 +12,7 @@
     "node": ">=18"
   },
   "bin": {
+    "pi-l-ce": "./bin/pi-l-ce",
     "pi-l-ce-init": "./bin/pi-l-ce-init"
   }
 }

@@ -26,7 +26,7 @@
 | 名称 | `pi-light-ce` |
 | 当前定位 | Pi-first 轻量工程工作流工具包 |
 | 支持范围 | 仅支持 Pi |
-| 核心命令 | `pi-l-ce-init` |
+| 核心命令 | `pi-l-ce` |
 | 工作流 | `plan -> execute -> review -> compound` |
 | 许可证 | [MIT](./LICENSE) |
 | 运行要求 | Node.js 18+、npm、Pi |
@@ -53,27 +53,24 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 
 脚本可重复运行。仓库已存在时会更新，不会重复克隆第二份。
 
-## 验证安装
+## 命令使用
 
-安装完成后，执行：
+| 场景 | 命令 |
+| --- | --- |
+| 查看帮助 | `pi-l-ce --help` |
+| 初始化当前目录 | `pi-l-ce init .` |
+| 初始化其他目录 | `pi-l-ce init /path/to/project` |
+| 强制覆盖模板文件 | `pi-l-ce init --force /path/to/project` |
+| 从 GitHub 更新本地安装 | `pi-l-ce self-update` |
 
-```bash
-pi-l-ce-init --help
-```
+兼容说明：
 
-如果能看到帮助输出，说明全局命令已经可用。
-
-## 更新命令
-
-```bash
-pi-l-ce-init --self-update
-```
-
-该命令会从当前 git 安装源拉取最新代码。标准安装方式下，会更新 `~/.pi-l-ce/repo`。
+- `pi-l-ce-init` 仍然保留为兼容入口
+- 新的主命令统一为 `pi-l-ce`
 
 ## 初始化后生成的项目文件
 
-`pi-l-ce-init` 会向目标项目写入以下文件：
+`pi-l-ce init` 会向目标项目写入以下文件：
 
 | 路径 | 作用 |
 | --- | --- |
@@ -87,7 +84,10 @@ pi-l-ce-init --self-update
 
 ```text
 bin/
-  pi-l-ce-init                Node CLI 初始化命令
+  pi-l-ce                     主 CLI 命令
+  pi-l-ce-init                兼容别名
+lib/
+  cli.js                      共享 CLI 逻辑
 scripts/
   install-macos.sh            macOS 安装脚本
   install-linux.sh            Linux 安装脚本
@@ -124,14 +124,6 @@ pi install npm:@narumitw/pi-goal
 | `execute` | 按计划持续执行 | 用 `/goal` 连续推进，不在阶段边界停机 |
 | `review` | 对照计划验证结果 | 跑聚焦验证，检查偏移和回归 |
 | `compound` | 沉淀复用知识 | 将决策、坑点、经验写入 `docs/solutions/` |
-
-## 初始化项目
-
-| 场景 | 命令 |
-| --- | --- |
-| 初始化当前目录 | `pi-l-ce-init .` |
-| 初始化其他目录 | `pi-l-ce-init /path/to/project` |
-| 强制覆盖受管理文件 | `pi-l-ce-init --force /path/to/project` |
 
 ## 许可证
 

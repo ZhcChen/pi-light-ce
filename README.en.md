@@ -26,7 +26,7 @@ It does not try to become another heavy framework or a multi-harness abstraction
 | Name | `pi-light-ce` |
 | Scope | Pi-first lightweight engineering workflow kit |
 | Supported runtime | Pi only |
-| Main command | `pi-l-ce-init` |
+| Main command | `pi-l-ce` |
 | Workflow | `plan -> execute -> review -> compound` |
 | License | [MIT](./LICENSE) |
 | Requirements | Node.js 18+, npm, Pi |
@@ -53,25 +53,24 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 
 The scripts are idempotent. If the repository is already present, they update it instead of cloning a second copy.
 
-## Verify Installation
+## Command Usage
 
-```bash
-pi-l-ce-init --help
-```
+| Scenario | Command |
+| --- | --- |
+| show help | `pi-l-ce --help` |
+| initialize current directory | `pi-l-ce init .` |
+| initialize another directory | `pi-l-ce init /path/to/project` |
+| force overwrite template files | `pi-l-ce init --force /path/to/project` |
+| update local installation from GitHub | `pi-l-ce self-update` |
 
-If help output appears, the global command is available.
+Compatibility notes:
 
-## Update Command
-
-```bash
-pi-l-ce-init --self-update
-```
-
-This pulls the latest code from the current git-backed installation source. With the standard installer flow, it updates `~/.pi-l-ce/repo`.
+- `pi-l-ce-init` remains available as a compatibility entrypoint
+- the primary command is now `pi-l-ce`
 
 ## Generated Project Files
 
-`pi-l-ce-init` writes these files into a target project:
+`pi-l-ce init` writes these files into a target project:
 
 | Path | Purpose |
 | --- | --- |
@@ -85,7 +84,10 @@ The target project's `AGENTS.md` is generated from the template source file `PLC
 
 ```text
 bin/
-  pi-l-ce-init                Node CLI initializer command
+  pi-l-ce                     primary CLI command
+  pi-l-ce-init                compatibility alias
+lib/
+  cli.js                      shared CLI logic
 scripts/
   install-macos.sh            macOS installer
   install-linux.sh            Linux installer
@@ -122,14 +124,6 @@ pi install npm:@narumitw/pi-goal
 | `execute` | keep work moving against the plan | use `/goal` so Pi does not stop at phase boundaries |
 | `review` | validate results against the plan | run focused checks and look for drift or regressions |
 | `compound` | capture reusable knowledge | write decisions, pitfalls, or lessons under `docs/solutions/` |
-
-## Initialize a Project
-
-| Scenario | Command |
-| --- | --- |
-| initialize current directory | `pi-l-ce-init .` |
-| initialize another directory | `pi-l-ce-init /path/to/project` |
-| force overwrite managed files | `pi-l-ce-init --force /path/to/project` |
 
 ## License
 

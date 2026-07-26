@@ -5,7 +5,8 @@ REPO_URL="${PI_L_CE_REPO_URL:-https://github.com/ZhcChen/pi-light-ce.git}"
 INSTALL_ROOT="${HOME}/.pi-l-ce"
 REPO_DIR="${INSTALL_ROOT}/repo"
 USER_BIN="${HOME}/.local/bin"
-WRAPPER_PATH="${USER_BIN}/pi-l-ce-init"
+PRIMARY_WRAPPER_PATH="${USER_BIN}/pi-l-ce"
+COMPAT_WRAPPER_PATH="${USER_BIN}/pi-l-ce-init"
 
 log() {
   printf '==> %s\n' "$*"
@@ -117,17 +118,23 @@ clone_or_update_repo() {
   git clone "$REPO_URL" "$REPO_DIR"
 }
 
-create_wrapper() {
+create_wrappers() {
   mkdir -p "$USER_BIN"
 
-  cat > "$WRAPPER_PATH" <<EOF
+  cat > "$PRIMARY_WRAPPER_PATH" <<EOF
+#!/usr/bin/env bash
+set -euo pipefail
+exec node "$REPO_DIR/bin/pi-l-ce" "\$@"
+EOF
+
+  cat > "$COMPAT_WRAPPER_PATH" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 exec node "$REPO_DIR/bin/pi-l-ce-init" "\$@"
 EOF
 
-  chmod +x "$WRAPPER_PATH"
-  log "Installed command wrapper at $WRAPPER_PATH"
+  chmod +x "$PRIMARY_WRAPPER_PATH" "$COMPAT_WRAPPER_PATH"
+  log "Installed command wrappers at $USER_BIN"
 }
 
 ensure_path() {
@@ -155,12 +162,13 @@ main() {
   install_base_packages
   install_pi_if_missing
   clone_or_update_repo
-  create_wrapper
+  create_wrappers
   ensure_path
 
   log "Done"
-  log "Verify with: pi-l-ce-init --help"
-  log "Update later with: pi-l-ce-init --self-update"
+  log "Verify with: pi-l-ce --help"
+  log "Initialize with: pi-l-ce init ."
+  log "Update later with: pi-l-ce self-update"
 }
 
 main "$@"

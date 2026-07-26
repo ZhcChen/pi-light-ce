@@ -3,5 +3,5 @@
 const { main } = require("../lib/cli")
 
 main(process.argv.slice(2), {
-  invokedAs: "pi-l-ce-init",
+  invokedAs: "pi-l-ce",
 })
