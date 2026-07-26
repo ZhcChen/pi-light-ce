@@ -134,3 +134,4 @@ Ensure-UserPath
 
 Write-Step 'Done'
 Write-Step 'Verify with: pi-l-ce-init --help'
+Write-Step 'Update later with: pi-l-ce-init --self-update'

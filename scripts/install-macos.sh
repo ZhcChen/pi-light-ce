@@ -104,6 +104,7 @@ main() {
 
   log "Done"
   log "Verify with: pi-l-ce-init --help"
+  log "Update later with: pi-l-ce-init --self-update"
 }
 
 main "$@"

@@ -1,47 +1,166 @@
 #!/usr/bin/env node
 
+const childProcess = require("node:child_process")
 const fs = require("node:fs")
+const os = require("node:os")
 const path = require("node:path")
 
 function usage() {
   process.stdout.write(`Usage: pi-l-ce-init [--force] [target_dir]
+       pi-l-ce-init --self-update
 
 Initialize a target project with the pi-light-ce workflow files.
 
 Options:
-  --force   Overwrite managed files if they already exist.
-  -h        Show this help.
+  --force         Overwrite managed files if they already exist.
+  --self-update   Update the managed pi-light-ce repository from git.
+  -h              Show this help.
 
 Arguments:
-  target_dir  Target project directory. Defaults to the current directory.
+  target_dir      Target project directory. Defaults to the current directory.
 `)
 }
 
+function fail(message) {
+  process.stderr.write(`${message}\n`)
+  process.exit(1)
+}
+
+function run(command, commandArgs, options = {}) {
+  const result = childProcess.spawnSync(command, commandArgs, {
+    stdio: options.stdio || "pipe",
+    encoding: "utf8",
+    cwd: options.cwd,
+  })
+
+  if (result.error) {
+    return result
+  }
+
+  return result
+}
+
+function ensureGit() {
+  const result = run("git", ["--version"])
+  if (result.error || result.status !== 0) {
+    fail("git is required for --self-update.")
+  }
+}
+
+function isGitRepo(dir) {
+  return fs.existsSync(path.join(dir, ".git"))
+}
+
+function getManagedRepoCandidates(repoRoot) {
+  return [
+    repoRoot,
+    path.join(os.homedir(), ".pi-l-ce", "repo"),
+  ]
+}
+
+function findManagedRepo(repoRoot) {
+  const seen = new Set()
+
+  for (const candidate of getManagedRepoCandidates(repoRoot)) {
+    const resolved = path.resolve(candidate)
+    if (seen.has(resolved)) {
+      continue
+    }
+    seen.add(resolved)
+
+    if (isGitRepo(resolved)) {
+      return resolved
+    }
+  }
+
+  return null
+}
+
+function ensureCleanWorkingTree(repoDir) {
+  const result = run("git", ["status", "--porcelain"], { cwd: repoDir })
+  if (result.error || result.status !== 0) {
+    fail(`Failed to inspect repository state: ${repoDir}`)
+  }
+
+  if (result.stdout.trim() !== "") {
+    fail(`Refusing to self-update because the repository has local changes: ${repoDir}`)
+  }
+}
+
+function selfUpdate(repoRoot) {
+  ensureGit()
+
+  const managedRepo = findManagedRepo(repoRoot)
+  if (!managedRepo) {
+    fail("Self-update requires a git-backed pi-light-ce installation. Reinstall with the bootstrap script first.")
+  }
+
+  ensureCleanWorkingTree(managedRepo)
+
+  process.stdout.write(`Updating pi-light-ce from ${managedRepo}\n`)
+  const result = run("git", ["pull", "--ff-only"], {
+    cwd: managedRepo,
+    stdio: "inherit",
+  })
+
+  if (result.error) {
+    fail(`Failed to run git pull: ${result.error.message}`)
+  }
+
+  if (result.status !== 0) {
+    fail("Self-update failed.")
+  }
+
+  process.stdout.write("Self-update complete.\n")
+}
+
 let force = false
+let selfUpdateRequested = false
 let targetArg = "."
 const args = process.argv.slice(2)
 
 for (let i = 0; i < args.length; i += 1) {
   const arg = args[i]
+
   if (arg === "--force") {
     force = true
     continue
   }
+
+  if (arg === "--self-update" || arg === "self-update") {
+    selfUpdateRequested = true
+    continue
+  }
+
   if (arg === "-h" || arg === "--help") {
     usage()
     process.exit(0)
   }
+
+  if (arg.startsWith("-")) {
+    fail(`Unknown option: ${arg}`)
+  }
+
   targetArg = arg
 }
 
 const scriptDir = __dirname
 const repoRoot = path.resolve(scriptDir, "..")
+
+if (selfUpdateRequested) {
+  if (force || targetArg !== ".") {
+    fail("--self-update cannot be combined with target_dir or --force.")
+  }
+
+  selfUpdate(repoRoot)
+  process.exit(0)
+}
+
 const templateRoot = path.join(repoRoot, "templates", "project")
 const targetDir = path.resolve(process.cwd(), targetArg)
 
 if (!fs.existsSync(targetDir) || !fs.statSync(targetDir).isDirectory()) {
-  process.stderr.write("Target directory does not exist.\n")
-  process.exit(1)
+  fail("Target directory does not exist.")
 }
 
 fs.mkdirSync(path.join(targetDir, "docs", "plans"), { recursive: true })

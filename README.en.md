@@ -33,11 +33,23 @@ It does not try to become another heavy framework or a multi-harness abstraction
 
 ## One-Command Installation
 
-| Platform | Command |
-| --- | --- |
-| macOS | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-macos.sh | bash` |
-| Linux | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-linux.sh | bash` |
-| Windows PowerShell | `irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-windows.ps1 | iex` |
+### macOS
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-macos.sh | bash
+```
+
+### Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-linux.sh | bash
+```
+
+### Windows PowerShell
+
+```powershell
+irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-windows.ps1 | iex
+```
 
 The scripts are idempotent. If the repository is already present, they update it instead of cloning a second copy.
 
@@ -48,6 +60,14 @@ pi-l-ce-init --help
 ```
 
 If help output appears, the global command is available.
+
+## Update Command
+
+```bash
+pi-l-ce-init --self-update
+```
+
+This pulls the latest code from the current git-backed installation source. With the standard installer flow, it updates `~/.pi-l-ce/repo`.
 
 ## Generated Project Files
 

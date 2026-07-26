@@ -33,11 +33,23 @@
 
 ## 一键安装命令
 
-| 平台 | 一键安装命令 |
-| --- | --- |
-| macOS | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-macos.sh | bash` |
-| Linux | `curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-linux.sh | bash` |
-| Windows PowerShell | `irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-windows.ps1 | iex` |
+### macOS
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-macos.sh | bash
+```
+
+### Linux
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-linux.sh | bash
+```
+
+### Windows PowerShell
+
+```powershell
+irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-windows.ps1 | iex
+```
 
 脚本可重复运行。仓库已存在时会更新，不会重复克隆第二份。
 
@@ -50,6 +62,14 @@ pi-l-ce-init --help
 ```
 
 如果能看到帮助输出，说明全局命令已经可用。
+
+## 更新命令
+
+```bash
+pi-l-ce-init --self-update
+```
+
+该命令会从当前 git 安装源拉取最新代码。标准安装方式下，会更新 `~/.pi-l-ce/repo`。
 
 ## 初始化后生成的项目文件
 
