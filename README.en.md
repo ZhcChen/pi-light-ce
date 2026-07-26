@@ -31,48 +31,7 @@ It does not try to become another heavy framework or a multi-harness abstraction
 | License | [MIT](./LICENSE) |
 | Requirements | Node.js 18+, npm, Pi |
 
-## What the Installers Do
-
-All three platform scripts follow the same core flow:
-
-| Action | Description |
-| --- | --- |
-| Check prerequisites | verify whether `git`, `node`, `npm`, and `pi` are available |
-| Install missing dependencies | install missing pieces using the platform-native strategy |
-| Create user directory | create `~/.pi-l-ce` or `%USERPROFILE%\.pi-l-ce` |
-| Clone repository | clone this repository into the user directory under `repo/` |
-| Update repository | if it already exists, run `git pull --ff-only` |
-| Expose command | create a globally callable `pi-l-ce-init` wrapper |
-| Update PATH | add the user command directory to PATH if needed |
-
-Default clone location:
-
-| Platform | Directory |
-| --- | --- |
-| macOS / Linux | `~/.pi-l-ce/repo` |
-| Windows | `%USERPROFILE%\.pi-l-ce\repo` |
-
-## Platform Installation Strategy
-
-| Platform | Missing dependency strategy |
-| --- | --- |
-| macOS | use **Homebrew** to install missing `git`, `node`, and `pi-coding-agent` |
-| Linux | use the system package manager for `git`, `curl`, `node`, and `npm`, then install Pi with `npm` |
-| Windows | use **winget** for `Git` and `Node.js`, then install Pi with `npm` |
-
-Platform notes:
-
-| Platform | Note |
-| --- | --- |
-| macOS | the installer expects Homebrew to already exist; if it does not, the script stops and asks you to install Homebrew first |
-| Linux | the current installer supports `apt-get`, `dnf`, `yum`, `pacman`, `zypper`, and `apk` |
-| Windows | the installer expects `winget` to be available |
-
-This also answers the earlier Windows question: **yes, winget is used on Windows, but mainly for Git and Node.js; Pi itself is still installed through npm.**
-
 ## One-Command Installation
-
-The recommended path is to run the platform installer script directly.
 
 | Platform | Command |
 | --- | --- |
@@ -100,6 +59,8 @@ If help output appears, the global command is available.
 | `docs/plans/TEMPLATE.md` | plan template |
 | `docs/solutions/TEMPLATE.md` | compound / solution template |
 
+The target project's `AGENTS.md` is generated from the template source file `PLCE_AGENTS.md`.
+
 ## Repository Layout
 
 ```text
@@ -111,7 +72,7 @@ scripts/
   install-windows.ps1         Windows installer
 templates/
   project/
-    AGENTS.md                 project workflow contract
+    PLCE_AGENTS.md            template source copied into target AGENTS.md
     docs/
       plans/
         TEMPLATE.md           plan template
@@ -149,20 +110,6 @@ pi install npm:@narumitw/pi-goal
 | initialize current directory | `pi-l-ce-init .` |
 | initialize another directory | `pi-l-ce-init /path/to/project` |
 | force overwrite managed files | `pi-l-ce-init --force /path/to/project` |
-
-## Suggested Next Steps After Init
-
-| Step | Action |
-| --- | --- |
-| 1 | review the generated `AGENTS.md` |
-| 2 | write a plan under `docs/plans/` |
-| 3 | use `/goal` to execute continuously |
-
-Suggested `/goal` prompt:
-
-```text
-/goal Read the relevant file under docs/plans/ and execute it continuously. Do not stop at phase boundaries. Stop only for missing decisions, missing permissions or credentials, unsafe irreversible actions, or completed-and-verified work.
-```
 
 ## Current Non-Goals
 

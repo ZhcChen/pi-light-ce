@@ -31,48 +31,7 @@
 | 许可证 | [MIT](./LICENSE) |
 | 运行要求 | Node.js 18+、npm、Pi |
 
-## 安装器会做什么
-
-三个平台脚本都会执行同一套核心动作：
-
-| 动作 | 说明 |
-| --- | --- |
-| 检查依赖 | 检查 `git`、`node`、`npm`、`pi` 是否存在 |
-| 安装缺失依赖 | 按平台安装缺失项 |
-| 创建用户目录 | 创建 `~/.pi-l-ce` 或 `%USERPROFILE%\.pi-l-ce` |
-| 克隆仓库 | 将本仓库克隆到用户目录下的 `repo/` |
-| 更新仓库 | 如果仓库已存在，则执行 `git pull --ff-only` |
-| 暴露命令 | 创建全局可调用的 `pi-l-ce-init` 命令包装器 |
-| 处理 PATH | 将用户级命令目录加入 PATH（必要时） |
-
-默认克隆位置：
-
-| 平台 | 目录 |
-| --- | --- |
-| macOS / Linux | `~/.pi-l-ce/repo` |
-| Windows | `%USERPROFILE%\.pi-l-ce\repo` |
-
-## 平台安装策略
-
-| 平台 | 缺失依赖安装策略 |
-| --- | --- |
-| macOS | 用 **Homebrew** 安装缺失的 `git`、`node`、`pi-coding-agent` |
-| Linux | 用系统包管理器安装 `git`、`curl`、`node`、`npm`，再用 `npm` 安装 Pi |
-| Windows | 用 **winget** 安装 `Git`、`Node.js`，再用 `npm` 安装 Pi |
-
-约束说明：
-
-| 平台 | 说明 |
-| --- | --- |
-| macOS | 安装脚本要求系统里已安装 Homebrew；如果没有，脚本会提示先安装 Homebrew |
-| Linux | 当前脚本支持 `apt-get`、`dnf`、`yum`、`pacman`、`zypper`、`apk` |
-| Windows | 安装脚本要求系统里可用 `winget` |
-
-这也回答你前面那个问题：**Windows 这边可以用 winget，但主要用于 Git 和 Node.js；Pi 本身还是通过 npm 安装。**
-
 ## 一键安装命令
-
-推荐直接执行平台脚本。
 
 | 平台 | 一键安装命令 |
 | --- | --- |
@@ -102,6 +61,8 @@ pi-l-ce-init --help
 | `docs/plans/TEMPLATE.md` | 计划模板 |
 | `docs/solutions/TEMPLATE.md` | 沉淀模板 |
 
+其中目标项目里的 `AGENTS.md` 来自模板文件 `PLCE_AGENTS.md`。
+
 ## 仓库结构
 
 ```text
@@ -113,7 +74,7 @@ scripts/
   install-windows.ps1         Windows 安装脚本
 templates/
   project/
-    AGENTS.md                 项目工作流约束
+    PLCE_AGENTS.md            模板源文件，初始化后写入为 AGENTS.md
     docs/
       plans/
         TEMPLATE.md           计划模板
@@ -151,20 +112,6 @@ pi install npm:@narumitw/pi-goal
 | 初始化当前目录 | `pi-l-ce-init .` |
 | 初始化其他目录 | `pi-l-ce-init /path/to/project` |
 | 强制覆盖受管理文件 | `pi-l-ce-init --force /path/to/project` |
-
-## 初始化后的建议动作
-
-| 步骤 | 动作 |
-| --- | --- |
-| 1 | 阅读生成的 `AGENTS.md` |
-| 2 | 在 `docs/plans/` 下写任务计划 |
-| 3 | 使用 `/goal` 连续执行计划 |
-
-推荐的 `/goal` 执行提示词：
-
-```text
-/goal Read the relevant file under docs/plans/ and execute it continuously. Do not stop at phase boundaries. Stop only for missing decisions, missing permissions or credentials, unsafe irreversible actions, or completed-and-verified work.
-```
 
 ## 当前非目标
 

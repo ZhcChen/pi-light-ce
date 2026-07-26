@@ -60,19 +60,10 @@ function copyFile(src, rel) {
   process.stdout.write(`write  ${rel}\n`)
 }
 
-copyFile(path.join(templateRoot, "AGENTS.md"), "AGENTS.md")
+copyFile(path.join(templateRoot, "PLCE_AGENTS.md"), "AGENTS.md")
 copyFile(path.join(templateRoot, "docs", "plans", "TEMPLATE.md"), path.join("docs", "plans", "TEMPLATE.md"))
 copyFile(path.join(templateRoot, "docs", "solutions", "TEMPLATE.md"), path.join("docs", "solutions", "TEMPLATE.md"))
 
 process.stdout.write(`
 Initialization complete.
-
-Recommended Pi packages:
-  pi install npm:pi-subagents
-  pi install npm:@narumitw/pi-goal
-
-Suggested next steps:
-  1. Review AGENTS.md.
-  2. Create a task plan under docs/plans/.
-  3. Use /goal to execute the plan continuously.
 `)
