@@ -63,11 +63,6 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 强制覆盖模板文件 | `pi-l-ce init --force /path/to/project` |
 | 从 GitHub 更新本地安装 | `pi-l-ce self-update` |
 
-兼容说明：
-
-- `pi-l-ce-init` 仍然保留为兼容入口
-- 新的主命令统一为 `pi-l-ce`
-
 ## 初始化后生成的项目文件
 
 `pi-l-ce init` 会向目标项目写入以下文件：
@@ -85,7 +80,6 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 ```text
 bin/
   pi-l-ce                     主 CLI 命令
-  pi-l-ce-init                兼容别名
 lib/
   cli.js                      共享 CLI 逻辑
 scripts/

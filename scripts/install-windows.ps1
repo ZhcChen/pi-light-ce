@@ -5,7 +5,6 @@ $InstallRoot = Join-Path $HOME '.pi-l-ce'
 $RepoDir = Join-Path $InstallRoot 'repo'
 $UserBin = Join-Path $InstallRoot 'bin'
 $PrimaryWrapperCmd = Join-Path $UserBin 'pi-l-ce.cmd'
-$CompatWrapperCmd = Join-Path $UserBin 'pi-l-ce-init.cmd'
 
 function Write-Step {
   param([string]$Message)
@@ -83,12 +82,12 @@ function Create-Wrappers {
 node "%USERPROFILE%\.pi-l-ce\repo\bin\pi-l-ce" %*
 "@ | Set-Content -Path $PrimaryWrapperCmd -Encoding Ascii
 
-  @"
-@echo off
-node "%USERPROFILE%\.pi-l-ce\repo\bin\pi-l-ce-init" %*
-"@ | Set-Content -Path $CompatWrapperCmd -Encoding Ascii
+  $legacyWrapperCmd = Join-Path $UserBin 'pi-l-ce-init.cmd'
+  if (Test-Path $legacyWrapperCmd) {
+    Remove-Item -Force $legacyWrapperCmd
+  }
 
-  Write-Step "Installed command wrappers at $UserBin"
+  Write-Step "Installed command wrapper at $PrimaryWrapperCmd"
 }
 
 function Ensure-UserPath {

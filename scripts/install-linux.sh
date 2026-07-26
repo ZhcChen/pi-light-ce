@@ -6,7 +6,6 @@ INSTALL_ROOT="${HOME}/.pi-l-ce"
 REPO_DIR="${INSTALL_ROOT}/repo"
 USER_BIN="${HOME}/.local/bin"
 PRIMARY_WRAPPER_PATH="${USER_BIN}/pi-l-ce"
-COMPAT_WRAPPER_PATH="${USER_BIN}/pi-l-ce-init"
 
 log() {
   printf '==> %s\n' "$*"
@@ -127,14 +126,13 @@ set -euo pipefail
 exec node "$REPO_DIR/bin/pi-l-ce" "\$@"
 EOF
 
-  cat > "$COMPAT_WRAPPER_PATH" <<EOF
-#!/usr/bin/env bash
-set -euo pipefail
-exec node "$REPO_DIR/bin/pi-l-ce-init" "\$@"
-EOF
+  local legacy_wrapper_path="${USER_BIN}/pi-l-ce-init"
+  if [[ -e "$legacy_wrapper_path" ]]; then
+    rm -f "$legacy_wrapper_path"
+  fi
 
-  chmod +x "$PRIMARY_WRAPPER_PATH" "$COMPAT_WRAPPER_PATH"
-  log "Installed command wrappers at $USER_BIN"
+  chmod +x "$PRIMARY_WRAPPER_PATH"
+  log "Installed command wrapper at $PRIMARY_WRAPPER_PATH"
 }
 
 ensure_path() {

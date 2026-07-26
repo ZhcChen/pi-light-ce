@@ -63,11 +63,6 @@ The scripts are idempotent. If the repository is already present, they update it
 | force overwrite template files | `pi-l-ce init --force /path/to/project` |
 | update local installation from GitHub | `pi-l-ce self-update` |
 
-Compatibility notes:
-
-- `pi-l-ce-init` remains available as a compatibility entrypoint
-- the primary command is now `pi-l-ce`
-
 ## Generated Project Files
 
 `pi-l-ce init` writes these files into a target project:
@@ -85,7 +80,6 @@ The target project's `AGENTS.md` is generated from the template source file `PLC
 ```text
 bin/
   pi-l-ce                     primary CLI command
-  pi-l-ce-init                compatibility alias
 lib/
   cli.js                      shared CLI logic
 scripts/
