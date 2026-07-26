@@ -7,6 +7,15 @@ REPO_DIR="${INSTALL_ROOT}/repo"
 USER_BIN="${HOME}/.local/bin"
 PRIMARY_WRAPPER_PATH="${USER_BIN}/pi-l-ce"
 
+node_major_version() {
+  if ! command -v node >/dev/null 2>&1; then
+    printf '0\n'
+    return 1
+  fi
+
+  node -p 'Number(process.versions.node.split(".")[0])' 2>/dev/null || printf '0\n'
+}
+
 log() {
   printf '==> %s\n' "$*"
 }
@@ -35,11 +44,20 @@ install_base_packages() {
   local need_curl=0
   local need_node=0
   local need_npm=0
+  local node_major=0
 
   command -v git >/dev/null 2>&1 || need_git=1
   command -v curl >/dev/null 2>&1 || need_curl=1
-  command -v node >/dev/null 2>&1 || need_node=1
   command -v npm >/dev/null 2>&1 || need_npm=1
+
+  if command -v node >/dev/null 2>&1; then
+    node_major="$(node_major_version || true)"
+    if [[ "$node_major" -lt 18 ]]; then
+      need_node=1
+    fi
+  else
+    need_node=1
+  fi
 
   if [[ "$need_git" -eq 0 && "$need_curl" -eq 0 && "$need_node" -eq 0 && "$need_npm" -eq 0 ]]; then
     return 0
@@ -83,6 +101,17 @@ install_base_packages() {
   fi
 
   fail "Unsupported Linux package manager. Install git, curl, nodejs, and npm manually, then rerun this script."
+}
+
+ensure_supported_node() {
+  local node_major
+
+  node_major="$(node_major_version || true)"
+  if [[ "$node_major" -ge 18 ]]; then
+    return 0
+  fi
+
+  fail "Node.js 18 or newer is required. Detected $(node --version 2>/dev/null || printf 'unknown'). Upgrade Node.js, then rerun this script."
 }
 
 install_pi_if_missing() {
@@ -158,6 +187,7 @@ ensure_path() {
 
 main() {
   install_base_packages
+  ensure_supported_node
   install_pi_if_missing
   clone_or_update_repo
   create_wrappers

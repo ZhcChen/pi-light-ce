@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+const majorVersion = Number(process.versions.node.split(".")[0])
+if (!Number.isInteger(majorVersion) || majorVersion < 18) {
+  process.stderr.write(`pi-l-ce requires Node.js 18 or newer. Current version: ${process.version}\n`)
+  process.exit(1)
+}
+
 const { main } = require("../lib/cli")
 
 main(process.argv.slice(2))

@@ -4,17 +4,20 @@
 - 默认按 `brainstorm -> plan -> execute -> review -> compound` 推进
 - `brainstorm` 只在需求不清、范围未定、方案分叉或未知项较多时启用
 - 需求已清晰时，直接进入 `plan`
+- 项目内可通过 `.pi/prompts/` 使用 `/brainstorm`、`/plan`、`/execute`、`/review`、`/compound` 作为 Pi 工作流入口
 
 ## 产物约定
 - `docs/brainstorms/`：需求澄清与方案收敛
 - `docs/plans/`：执行计划
 - `docs/solutions/`：问题沉淀与经验复用
+- `docs/*/TEMPLATE.md` 只作结构参考；正式文档优先使用具体文件名，例如 `YYYY-MM-DD-short-name.md`
 
 ## 执行规则
 - `docs/` 下的项目文档统一使用简体中文；必要时可保留英文术语或命令原文
 - 文档内统一使用仓库相对路径
+- 不直接在 `TEMPLATE.md` 中记录正式内容；需要新建文档时，复制结构并写入同目录下的具体文件
 - 有现成的 brainstorm 或 plan 时，优先复用和续写，不重复开平行文档
-- 开始改动前先确认当前任务对应的 plan；长任务优先使用 `/goal`
+- 开始改动前先确认当前任务对应的 plan；执行阶段可直接通过 `/execute` 进入，长任务优先使用 `/goal`
 - 只有在以下情况才停止执行：缺决策、缺权限/凭证/外部输入、危险不可逆操作、或工作已完成且验证通过
 
 ## Review

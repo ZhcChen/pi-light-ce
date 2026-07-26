@@ -7,6 +7,15 @@ REPO_DIR="${INSTALL_ROOT}/repo"
 USER_BIN="${HOME}/.local/bin"
 PRIMARY_WRAPPER_PATH="${USER_BIN}/pi-l-ce"
 
+node_major_version() {
+  if ! command -v node >/dev/null 2>&1; then
+    printf '0\n'
+    return 1
+  fi
+
+  node -p 'Number(process.versions.node.split(".")[0])' 2>/dev/null || printf '0\n'
+}
+
 log() {
   printf '==> %s\n' "$*"
 }
@@ -43,6 +52,17 @@ install_pi_if_missing() {
 
   log "Installing pi-coding-agent via Homebrew"
   brew install pi-coding-agent
+}
+
+ensure_supported_node() {
+  local node_major
+
+  node_major="$(node_major_version || true)"
+  if [[ "$node_major" -ge 18 ]]; then
+    return 0
+  fi
+
+  fail "Node.js 18 or newer is required. Detected $(node --version 2>/dev/null || printf 'unknown'). Upgrade Node.js, then rerun this script."
 }
 
 clone_or_update_repo() {
@@ -102,6 +122,7 @@ main() {
   ensure_brew
   install_brew_package_if_missing git git
   install_brew_package_if_missing node node
+  ensure_supported_node
   install_pi_if_missing
   clone_or_update_repo
   create_wrappers

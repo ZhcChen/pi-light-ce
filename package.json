@@ -1,7 +1,7 @@
 {
   "name": "pi-light-ce",
   "version": "0.1.0",
-  "description": "A lightweight, Pi-first engineering workflow kit",
+  "description": "A lightweight, Pi-first engineering workflow template kit",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,6 +10,17 @@
   "homepage": "https://github.com/ZhcChen/pi-light-ce",
   "engines": {
     "node": ">=18"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "templates/",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node ./scripts/smoke-test.js"
   },
   "bin": {
     "pi-l-ce": "./bin/pi-l-ce"

@@ -1,6 +1,6 @@
 <div align="center">
   <h1>pi-light-ce</h1>
-  <p><strong>面向 Pi 的轻量工程工作流工具包</strong></p>
+  <p><strong>面向 Pi 的轻量工程工作流模板工具包</strong></p>
   <p>
     <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
     <img alt="Pi First" src="https://img.shields.io/badge/Pi-first-7c3aed">
@@ -15,7 +15,7 @@
   <p>简体中文 | <a href="./README.en.md">English</a></p>
 </div>
 
-`pi-light-ce` 是一个 **面向 Pi 的轻量工程工作流工具包**。
+`pi-light-ce` 是一个 **面向 Pi 的轻量工程工作流模板工具包**。
 
 它不追求重型框架，也不试图兼容所有 harness。它只做一件事：让每个新 Pi 项目都从一套固定、轻量、可复用的工程工作流开始。
 
@@ -24,13 +24,22 @@
 | 项目项 | 说明 |
 | --- | --- |
 | 名称 | `pi-light-ce` |
-| 当前定位 | Pi-first 轻量工程工作流工具包 |
+| 当前定位 | Pi-first 轻量工程工作流模板工具包 |
+| 当前形态 | CLI 脚手架 + 文档与 prompt 模板 |
+| 默认自动化边界 | 不提供 CE 式 workflow runtime；优先提示词约束与显式 CLI |
 | 支持范围 | 仅支持 Pi |
 | 核心命令 | `pi-l-ce` |
 | 工作流 | `plan -> execute -> review -> compound` |
 | 前置收敛 | `docs/brainstorms/`，仅在需求不清或方案分叉时使用 |
 | 许可证 | [MIT](./LICENSE) |
 | 运行要求 | Node.js 18+、npm、Pi |
+
+## 边界与取舍
+
+- `pi-light-ce` 不是重 runtime 框架，也不是纯 skill 包；它当前的职责是提供项目脚手架、文档结构和工作流约束
+- 默认不引入 CE 式 workflow runtime，例如后台 job runner、跨模型调度控制器、隐藏的 `/plan` 执行脚本层
+- 工作流优先停留在提示词和约束层：`AGENTS.md`、`docs/` 模板，以及写入目标项目 `.pi/prompts/` 的 Pi 内部入口
+- 需要自动化时，优先增加用户显式调用的 CLI/helper，而不是让 workflow 在背后隐式启动程序化控制面
 
 ## 一键安装命令
 
@@ -59,11 +68,20 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 场景 | 命令 |
 | --- | --- |
 | 查看帮助 | `pi-l-ce --help` |
+| 查看版本 | `pi-l-ce --version` |
+| 检查环境与当前项目 | `pi-l-ce doctor` |
 | 初始化当前目录 | `pi-l-ce init .` |
-| 初始化其他目录 | `pi-l-ce init /path/to/project` |
+| 初始化其他目录（不存在时自动创建） | `pi-l-ce init /path/to/project` |
 | 强制覆盖模板文件 | `pi-l-ce init --force /path/to/project` |
 | 从 GitHub 更新本地安装 | `pi-l-ce self-update` |
-| 运行本地 smoke test | `bash scripts/smoke-test.sh` |
+| 运行本地 smoke test | `npm test` |
+
+## 命令分层
+
+| 类型 | 入口 | 作用 |
+| --- | --- | --- |
+| 外部 CLI | `pi-l-ce init` / `pi-l-ce self-update` / `pi-l-ce doctor` | 安装、初始化、维护模板源与环境检查 |
+| 项目内 Pi 入口 | `/brainstorm` / `/plan` / `/execute` / `/review` / `/compound` | 在目标项目内触发轻量工作流提示词 |
 
 ## 初始化后生成的项目文件
 
@@ -72,11 +90,24 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 | 路径 | 作用 |
 | --- | --- |
 | `AGENTS.md` | 项目工作流约束 |
+| `.pi/prompts/brainstorm.md` | 项目内 `/brainstorm` 入口模板 |
+| `.pi/prompts/plan.md` | 项目内 `/plan` 入口模板 |
+| `.pi/prompts/execute.md` | 项目内 `/execute` 入口模板 |
+| `.pi/prompts/review.md` | 项目内 `/review` 入口模板 |
+| `.pi/prompts/compound.md` | 项目内 `/compound` 入口模板 |
 | `docs/brainstorms/TEMPLATE.md` | 需求不清或方案分叉时使用的简体中文 brainstorm 模板 |
 | `docs/plans/TEMPLATE.md` | 简体中文计划模板 |
 | `docs/solutions/TEMPLATE.md` | 简体中文沉淀模板 |
 
-其中目标项目里的 `AGENTS.md` 来自模板文件 `PLCE_AGENTS.md`。
+其中目标项目里的 `AGENTS.md` 来自模板文件 `PLCE_AGENTS.md`；`.pi/prompts/*.md` 会注册为该项目内的 `/brainstorm`、`/plan`、`/execute`、`/review`、`/compound` 入口。
+
+`docs/*/TEMPLATE.md` 只作结构参考。正式内容应优先写入同目录下的具体文件，例如 `docs/plans/2025-07-26-short-name.md`，不要直接把真实记录写进 `TEMPLATE.md`。
+
+## 使用提示
+
+- `pi-l-ce doctor` 会检查当前运行环境、推荐 Pi 包，以及当前目录下的项目模板文件是否齐全
+- 项目内 `.pi/prompts/*.md` 需要在 Pi 信任该项目后才会被发现
+- 如果你在执行 `pi-l-ce init` 前已经打开 Pi 会话，运行 `/reload` 或重开会话，让新写入的 prompt 模板生效
 
 ## 仓库结构
 
@@ -89,9 +120,17 @@ scripts/
   install-macos.sh            macOS 安装脚本
   install-linux.sh            Linux 安装脚本
   install-windows.ps1         Windows 安装脚本
-  smoke-test.sh               本地 smoke test
+  smoke-test.js               跨平台 smoke test 主脚本
+  smoke-test.sh               smoke test Bash 包装器
 templates/
   project/
+    .pi/
+      prompts/
+        brainstorm.md          项目内 /brainstorm 提示词模板
+        plan.md                项目内 /plan 提示词模板
+        execute.md             项目内 /execute 提示词模板
+        review.md              项目内 /review 提示词模板
+        compound.md            项目内 /compound 提示词模板
     PLCE_AGENTS.md            模板源文件，初始化后写入为 AGENTS.md
     docs/
       brainstorms/
@@ -123,7 +162,7 @@ pi install npm:@narumitw/pi-goal
 | 阶段 | 目的 | 最小动作 |
 | --- | --- | --- |
 | `plan` | 明确目标、范围、验证方式 | 在 `docs/plans/` 下创建或更新计划 |
-| `execute` | 按计划持续执行 | 用 `/goal` 连续推进，不在阶段边界停机 |
+| `execute` | 按计划持续执行 | 使用 `/execute` 进入执行；长任务用 `/goal` 连续推进 |
 | `review` | 对照计划验证结果 | 跑聚焦验证，检查偏移和回归 |
 | `compound` | 沉淀复用知识 | 将决策、坑点、经验写入 `docs/solutions/` |
 

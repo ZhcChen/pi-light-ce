@@ -6,6 +6,18 @@ $RepoDir = Join-Path $InstallRoot 'repo'
 $UserBin = Join-Path $InstallRoot 'bin'
 $PrimaryWrapperCmd = Join-Path $UserBin 'pi-l-ce.cmd'
 
+function Test-NodeMajorVersion {
+  if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
+    return 0
+  }
+
+  try {
+    return [int](node -p "Number(process.versions.node.split('.')[0])")
+  } catch {
+    return 0
+  }
+}
+
 function Write-Step {
   param([string]$Message)
   Write-Host "==> $Message" -ForegroundColor Cyan
@@ -55,6 +67,15 @@ function Ensure-Pi {
   Write-Step 'Installing pi-coding-agent via npm'
   npm install -g @earendil-works/pi-coding-agent
   Refresh-CommonPathHints
+}
+
+function Ensure-SupportedNode {
+  $major = Test-NodeMajorVersion
+  if ($major -ge 18) {
+    return
+  }
+
+  throw "Node.js 18 or newer is required. Detected $(& node --version 2>$null). Upgrade Node.js, then rerun this script."
 }
 
 function Clone-Or-UpdateRepo {
@@ -132,6 +153,7 @@ function Ensure-UserPath {
 Ensure-WingetPackage -CommandName git -WingetId 'Git.Git' -DisplayName 'Git'
 Ensure-WingetPackage -CommandName node -WingetId 'OpenJS.NodeJS.LTS' -DisplayName 'Node.js LTS'
 Refresh-CommonPathHints
+Ensure-SupportedNode
 Ensure-Pi
 Clone-Or-UpdateRepo
 Create-Wrappers
