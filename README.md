@@ -39,6 +39,7 @@
 - `pi-light-ce` 不是重 runtime 框架，也不是纯 skill 包；它当前的职责是提供项目脚手架、文档结构和工作流约束
 - 默认不引入 CE 式 workflow runtime，例如后台 job runner、跨模型调度控制器、隐藏的 `/plan` 执行脚本层
 - 工作流优先停留在提示词和约束层：`AGENTS.md`、`docs/` 模板，以及写入目标项目 `.pi/prompts/` 的 Pi 内部入口
+- 目标项目默认采用“自然语言资产用简体中文、领域性标识用英文”的约定：代码注释、说明文档、提交信息使用简体中文；函数名、API 名称、配置键等继续使用英文或既有约定
 - 需要自动化时，优先增加用户显式调用的 CLI/helper，而不是让 workflow 在背后隐式启动程序化控制面
 
 ## 一键安装命令
@@ -106,6 +107,7 @@ irm https://raw.githubusercontent.com/ZhcChen/pi-light-ce/main/scripts/install-w
 ## 使用提示
 
 - `pi-l-ce doctor` 会检查当前运行环境、推荐 Pi 包，以及当前目录下的项目模板文件是否齐全
+- 目标项目默认约束是：代码注释、说明文档、提交信息等自然语言资产使用简体中文；函数名、API 名称、配置键等领域性标识保持英文或沿用既有约定
 - 项目内 `.pi/prompts/*.md` 需要在 Pi 信任该项目后才会被发现
 - 如果你在执行 `pi-l-ce init` 前已经打开 Pi 会话，运行 `/reload` 或重开会话，让新写入的 prompt 模板生效
 

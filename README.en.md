@@ -39,6 +39,7 @@ It does not try to become another heavy framework or a multi-harness abstraction
 - `pi-light-ce` is not a heavy runtime framework and not a pure skill package; its current job is to provide project scaffolding, documentation structure, and workflow constraints
 - It does not introduce CE-style workflow runtime pieces such as hidden `/plan` execution scripts, background job runners, or cross-model control layers
 - Workflow stays primarily in the prompt and contract layer: `AGENTS.md`, `docs/` templates, and project-local Pi entrypoints under `.pi/prompts/`
+- Generated projects default to “Simplified Chinese for natural-language assets, English for domain identifiers”: code comments, explanatory docs, and commit messages are Simplified Chinese, while function names, API names, config keys, and similar identifiers stay English or follow existing project conventions
 - When automation is needed, prefer explicit user-invoked CLI/helpers instead of adding an implicit programmatic control plane behind the workflow
 
 ## One-Command Installation
@@ -106,6 +107,7 @@ The target project's `AGENTS.md` is generated from the template source file `PLC
 ## Usage Notes
 
 - `pi-l-ce doctor` checks the current runtime, recommended Pi packages, and whether the current directory has the expected template files
+- Generated projects default to Simplified Chinese for natural-language assets such as code comments, explanatory docs, and commit messages; domain identifiers such as function names, API names, and config keys stay English or follow existing project conventions
 - Project-local `.pi/prompts/*.md` is discovered only after Pi trusts the project
 - If you already had a Pi session open before running `pi-l-ce init`, run `/reload` or reopen the session so the new prompt templates are picked up
 
