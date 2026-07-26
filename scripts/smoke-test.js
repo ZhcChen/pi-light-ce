@@ -119,6 +119,8 @@ try {
   const expectedEntries = [
     "package/bin/pi-l-ce",
     "package/lib/cli.js",
+    "package/templates/market/prompt/git-commit-push.md",
+    "package/templates/market/prompt/global-append-system-zh-cn.md",
     "package/templates/project/.pi/prompts/brainstorm.md",
     "package/templates/project/.pi/prompts/plan.md",
     "package/templates/project/.pi/prompts/execute.md",
