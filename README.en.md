@@ -1,82 +1,82 @@
 # pi-light-ce
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![Pi First](https://img.shields.io/badge/Pi-first-7c3aed)
+![Node >=18](https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white)
+![Platform](https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-1f6feb)
+![Docs](https://img.shields.io/badge/docs-default%20zh--CN-brightgreen)
+
 [简体中文](./README.md) | English
 
-`pi-light-ce` is a lightweight, Pi-first engineering workflow kit.
+`pi-light-ce` is a **lightweight, Pi-first engineering workflow kit**.
 
-It keeps a fixed four-stage workflow:
+It does not try to become another heavy framework or a multi-harness abstraction layer. Its job is simple: make every new Pi project start from the same minimal structure and engineering workflow.
 
-1. `plan`
-2. `execute`
-3. `review`
-4. `compound`
+## Overview
 
-The goal is not to ship another heavy framework. The goal is to make every new Pi project start from the same minimal structure, rules, and execution habits.
+| Item | Value |
+| --- | --- |
+| Name | `pi-light-ce` |
+| Scope | Pi-first lightweight engineering workflow kit |
+| Supported runtime | Pi only |
+| Main command | `pi-l-ce-init` |
+| Workflow | `plan -> execute -> review -> compound` |
+| License | [MIT](./LICENSE) |
+| Requirements | Node.js 18+, npm, Pi |
 
-## Current Scope
+## Core Principles
 
-This repository currently does three things:
-
-- provides a project template
-- provides a global initializer command: `pi-l-ce-init`
-- standardizes a lightweight Pi workflow around plans, `/goal`, review, and compound notes
-
-This repository is intentionally Pi-only for now.
-
-It does not try to support Claude Code, Codex, Cursor, or any other harness.
+| Principle | Meaning |
+| --- | --- |
+| Small core | Pi stays the runtime core; no large workflow platform is added |
+| Fixed stages | Keep `plan`, `execute`, `review`, and `compound` |
+| Variable depth | Every stage stays, but its depth scales with task size |
+| Pi-only | No Claude Code, Codex, Cursor, or other harness compatibility layer |
+| Template-first | Workflow is standardized mainly through templates and project conventions |
 
 ## Workflow Model
 
-`pi-light-ce` keeps all four stages, but keeps them small.
+| Stage | Purpose | Minimum action |
+| --- | --- | --- |
+| `plan` | define goal, scope, and validation | create or update a plan under `docs/plans/` |
+| `execute` | keep work moving against the plan | use `/goal` so Pi does not stop at phase boundaries |
+| `review` | validate results against the plan | run focused checks and look for drift or regressions |
+| `compound` | capture reusable knowledge | write decisions, pitfalls, or lessons under `docs/solutions/` |
 
-### 1. Plan
-
-Create or update one task plan under `docs/plans/`.
-
-### 2. Execute
-
-Use `/goal` for long-running execution against the chosen plan so Pi keeps moving instead of stopping at every phase boundary.
-
-### 3. Review
-
-Check the result against the plan and run focused validation.
-
-### 4. Compound
-
-Capture reusable decisions, pitfalls, debugging paths, or lessons under `docs/solutions/`.
-
-## Generated Project Structure
+## Generated Project Files
 
 `pi-l-ce-init` writes these files into a target project:
 
-```text
-AGENTS.md
-/docs/plans/TEMPLATE.md
-/docs/solutions/TEMPLATE.md
-```
+| Path | Purpose |
+| --- | --- |
+| `AGENTS.md` | project workflow contract |
+| `docs/plans/TEMPLATE.md` | plan template |
+| `docs/solutions/TEMPLATE.md` | compound / solution template |
 
 ## Repository Layout
 
 ```text
 bin/
-  pi-l-ce-init          Global initializer command
+  pi-l-ce-init                global initializer command
 templates/
   project/
-    AGENTS.md           Project workflow contract
+    AGENTS.md                 project workflow contract
     docs/
       plans/
-        TEMPLATE.md     Plan template
+        TEMPLATE.md           plan template
       solutions/
-        TEMPLATE.md     Compound / solution template
+        TEMPLATE.md           compound template
 ```
 
 ## Requirements
 
-Before using the global command, make sure you have:
-
-- Node.js 18+
-- npm
-- Pi installed separately
+| Component | Required | Notes |
+| --- | --- | --- |
+| Node.js 18+ | Yes | needed for the global initializer command |
+| npm | Yes | used for installation |
+| Pi | Yes | workflow runtime |
+| `pi-subagents` | Recommended | subagent orchestration base |
+| `@narumitw/pi-goal` | Recommended | long-running execution mechanism |
 
 Recommended Pi packages:
 
@@ -89,97 +89,44 @@ pi install npm:@narumitw/pi-goal
 
 The easiest cross-platform installation method is global npm install from GitHub.
 
-### macOS
+### Install from GitHub
 
-Public GitHub repository:
-
-```bash
-npm install -g git+https://github.com/ZhcChen/pi-light-ce.git
-```
-
-SSH variant:
-
-```bash
-npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git
-```
-
-### Linux
-
-Public GitHub repository:
-
-```bash
-npm install -g git+https://github.com/ZhcChen/pi-light-ce.git
-```
-
-SSH variant:
-
-```bash
-npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git
-```
-
-### Windows PowerShell
-
-Public GitHub repository:
-
-```powershell
-npm install -g git+https://github.com/ZhcChen/pi-light-ce.git
-```
-
-SSH variant:
-
-```powershell
-npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git
-```
+| Platform | HTTPS | SSH |
+| --- | --- | --- |
+| macOS | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
+| Linux | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
+| Windows PowerShell | `npm install -g git+https://github.com/ZhcChen/pi-light-ce.git` | `npm install -g git+ssh://git@github.com/ZhcChen/pi-light-ce.git` |
 
 ### Install from a Local Checkout
 
-If you already cloned this repository locally:
-
-```bash
-npm install -g /absolute/path/to/pi-light-ce
-```
-
-Windows PowerShell example:
-
-```powershell
-npm install -g C:\path\to\pi-light-ce
-```
+| Platform | Command |
+| --- | --- |
+| macOS / Linux | `npm install -g /absolute/path/to/pi-light-ce` |
+| Windows PowerShell | `npm install -g C:\path\to\pi-light-ce` |
 
 ## Verify Installation
-
-After installation, run:
 
 ```bash
 pi-l-ce-init --help
 ```
 
+If help text appears, the global command is installed correctly.
+
 ## Initialize a Project
 
-Initialize the current directory:
+| Scenario | Command |
+| --- | --- |
+| initialize current directory | `pi-l-ce-init .` |
+| initialize another directory | `pi-l-ce-init /path/to/project` |
+| force overwrite managed files | `pi-l-ce-init --force /path/to/project` |
 
-```bash
-pi-l-ce-init .
-```
+## Suggested Next Steps After Init
 
-Initialize another directory:
-
-```bash
-pi-l-ce-init /path/to/project
-```
-
-Force overwrite managed files:
-
-```bash
-pi-l-ce-init --force /path/to/project
-```
-
-## Suggested Next Step After Init
-
-After running `pi-l-ce-init`, the normal flow is:
-
-1. review the generated `AGENTS.md`
-2. write a plan under `docs/plans/`
-3. use `/goal` to execute continuously
+| Step | Action |
+| --- | --- |
+| 1 | review the generated `AGENTS.md` |
+| 2 | write a plan under `docs/plans/` |
+| 3 | use `/goal` to execute continuously |
 
 Suggested `/goal` prompt:
 
@@ -187,10 +134,16 @@ Suggested `/goal` prompt:
 /goal Read the relevant file under docs/plans/ and execute it continuously. Do not stop at phase boundaries. Stop only for missing decisions, missing permissions or credentials, unsafe irreversible actions, or completed-and-verified work.
 ```
 
-## Non-Goals
+## Current Non-Goals
 
-- no heavy plugin framework
-- no large workflow suite
-- no CE upstream compatibility layer
-- no multi-harness abstraction layer
-- no generated runtime code inside target projects unless it becomes clearly necessary later
+| Not included | Why |
+| --- | --- |
+| heavy plugin framework | keep the Pi-first footprint small |
+| large workflow suite | avoid extra orchestration complexity |
+| CE upstream compatibility layer | this repo focuses on its own lightweight workflow |
+| multi-harness abstraction | Pi-only by design |
+| generated runtime code inside target projects | avoid it unless it later becomes clearly necessary |
+
+## License
+
+This project is licensed under the [MIT License](./LICENSE).
